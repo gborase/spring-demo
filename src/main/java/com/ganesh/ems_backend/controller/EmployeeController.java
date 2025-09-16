@@ -4,10 +4,9 @@ import com.ganesh.ems_backend.dto.EmployeeDTO;
 import com.ganesh.ems_backend.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/employee")
@@ -26,5 +25,23 @@ public class EmployeeController {
 
    }
 
+   @GetMapping("/get/{id}")
+   public ResponseEntity<EmployeeDTO> createEmployee(@PathVariable(name ="id") long  employeeId) {
+      return new ResponseEntity<>(employeeService.getEmployeeByid(employeeId),HttpStatus.OK);
+   }
+
+   @GetMapping("/get/employees")
+   public ResponseEntity<List<EmployeeDTO>> getEmployeesList() {
+      return new ResponseEntity<>(employeeService.getAllEmployee(),HttpStatus.OK);
+   }
+
+   @DeleteMapping("/delete/{id}")
+   public ResponseEntity<String> deleteEmployeeById(@PathVariable(name ="id") long  employeeId) {
+      return new ResponseEntity<>(employeeService.deleteEmployeeById(employeeId),HttpStatus.OK);
+   }
+   @PutMapping("/update/{id}")
+   public ResponseEntity<EmployeeDTO> updateEmployeeById(@PathVariable(name="id") long employeeId,@RequestBody EmployeeDTO employeeDTO) {
+      return new ResponseEntity<>(employeeService.updateEmployee(employeeId,employeeDTO),HttpStatus.OK);
+   }
 
 }
